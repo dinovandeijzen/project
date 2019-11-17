@@ -1,0 +1,16 @@
+ArrayList<Window> windows = new ArrayList<Window>();
+ArrayList<Menu> menus = new ArrayList<Menu>();
+ArrayList<Button> buttons = new ArrayList<Button>();
+ArrayList<Slider> Sliders = new ArrayList<Slider>();
+ArrayList<Quad> qgrid = new ArrayList<Quad>();
+ArrayList<Attractor> attractors = new ArrayList<Attractor>();
+int W = 1200, H = 660,gw = 10,gh = 10;
+color backgroundcol = 51;
+boolean gridtype,restart;
+float kkkk = 0.1, gW = (W)/float(gw), gH = H/float(gh);;
+Button btn1,btn2,btn3,reset,attractor,grid,d2_plot,d3_plot,btn4,btn5,btn6,btn7,btn8,btn9,btn10,btn11,yes,no;
+Button btn12,btn13,btn14,btn15,btn16,btn17,btn18,btn19,btn20,btn21;
+Button grav;
+Grid g;
+Plot_2D plot;
+Menu file,gridbox,plotbox,reset_dialogue,shapes,physics;
