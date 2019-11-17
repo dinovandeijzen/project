@@ -1,11 +1,12 @@
 class Grid_space{
   
-  int id, row, col,t,toggle,steps,counter;
+  int id, row,t,toggle,steps,counter = 0,index;
   float x,y,w,h,vx,vy,ax,ay,elasticity,lim;
   String label;
   boolean drag,resize,collide,forward = true,backward = false, pause = false;
   ArrayList<PVector> pos = new ArrayList<PVector>();
-  
+  ArrayList<PVector> vel = new ArrayList<PVector>();
+  color col = 255;
   Grid_space(float xx,float yy, float ww, float hh, int Id){
     
     x = xx;
@@ -42,9 +43,16 @@ class Grid_space{
   
   void update(){
     steps = pos.size()-1;
-    
+    text (counter, 150,20);
+    fill(255);
+      text(index,200,10);
+      fill(col);
     if(forward){
-      counter = pos.size()-1;
+      
+      if(index==0){
+        if(pos.size()>0){
+          counter = pos.size()-1;
+        }
     //if(lim>0){
     //  vx += Limit(vx,lim);
     //  vy += Limit(vy,lim);
@@ -52,33 +60,50 @@ class Grid_space{
     
     if(vx>4){
       vx = 4;
-      
     }
     
     if(vx<-4){
       vx = -4;
-      
     }
     if(vy>4){
       vx = 4;
-      
     }
     if(vy<-4){
       vx = -4;
-      
     }
     x += vx;
     y += vy;
     
-    
       pos.add(new PVector(x,y));
+      vel.add(new PVector(vx,vy));
     }
-    else if(backward){
+    else if(index ==1){
       
       x = pos.get(counter).x;
       y = pos.get(counter).y;
+      counter++;
+      if(counter == pos.size()-1){
+        index = 0;
+      }
+    }}
+    else if(backward){
+      if(counter>0){
+        index = 1;
+      vx = vel.get(counter).x;
+      vy = vel.get(counter).y;
+      x -= vx;
+      y -= vy;
+      //x = pos.get(counter).x;
+      //y = pos.get(counter).y;
       counter --;
-    }
+      if(counter<pos.size()-1){
+        pos.remove(pos.size()-1);
+      }
+      if(counter == 0){
+        index = 0;
+      }
+      //steps = counter;
+    }}
     else if(pause){
       
     }

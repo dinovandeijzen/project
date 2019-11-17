@@ -30,4 +30,10 @@ class Attractor{
     }
   };
   
-}
+  boolean pos(){
+    float X = mouseX;
+    float Y = mouseY;
+    return X > x && X < x + 10 && Y > y && Y < y + 10; 
+  }
+  
+};

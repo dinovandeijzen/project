@@ -1,11 +1,12 @@
 public class Grid{
   
-  int id, row, col,toggle;
+  int id, row, cols,toggle;
   float x,y,w,h,bordersize,lim,acceleration,elasticity;
   String label;
-  boolean drag,resize, init, border, fill,hover,count,wrap,move,attractor,circle,collide,cloth,partition,bounce,mouse,forward = true,backward,pause;
+  boolean drag,resize, init, border, fill,hover,count,wrap,move,attractor,circle,collide,cloth,partition,bounce,mouse,forward = true,backward,pause,randcolor;
   ArrayList<Grid_space> squares = new ArrayList<Grid_space>();
   
+  //color col = color(255);
   Grid(float xx,float yy, float ww, float hh, int Row, int Col){
     
     x = xx;
@@ -13,23 +14,27 @@ public class Grid{
     w = ww;
     h = hh;
     row = Row;
-    col = Col;
+    cols = Col;
     bordersize = 1;
+    
   }
   
   public void init(){
-    float W = w/col;
+    float W = w/cols;
     float H = h/row;
-    if(squares.size()<row*col){
+    if(squares.size()<row*cols){
       
-    for(int i=0;i<col;i++){
+    for(int i=0;i<cols;i++){
       for(int j=0;j<row;j++){
         float x1 = (x + W * i);
         float y1 = (y + H * j);
         
-        int num = i + j * col;
+        int num = i + j * cols;
         Grid_space a = new Grid_space(x1,y1,W,H,num);
         a.lim = lim;
+        if(randcolor){
+          a.col = color(random(255),random(255),random(255));
+        }
         squares.add(a);
         
     }}}
@@ -68,12 +73,12 @@ public class Grid{
           noStroke();
         }
         
-        fill(255);
+        fill(a.col);
         if(a.pos()&&hover){
           fill(0,255,0);
         }
         else{
-          fill(255);
+          fill(a.col);
         }
         if(!fill){
           noFill();
@@ -142,7 +147,7 @@ public class Grid{
           a.backward = true;
           a.pause = false;
           a.update();
-         fill(255); 
+         fill(a.col); 
          
          if(a.pos()&&hover){
           fill(0,255,0);
@@ -170,7 +175,7 @@ public class Grid{
           a.backward = false;
           a.pause = true;
           a.update();
-        fill(255);
+        fill(a.col);
         if(a.pos()&&hover){
           fill(0,255,0);
         }
