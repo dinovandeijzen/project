@@ -6,11 +6,18 @@ class Plot_2D{
   boolean drag,resize,line,dotted,dashed;
   PVector origin;
   color col;
+  HashMap<String,Boolean> values = new HashMap<String,Boolean>();
+  
   Plot_2D(PVector Origin,float ww, float hh){
     origin = Origin;
     w = ww;
     h = hh;
     
+    values.put("drag",false);
+    values.put("resize",false);
+    values.put("line",false);
+    values.put("dotted",false);
+    values.put("dashed",false);
   }
   
   void draw(){
@@ -69,5 +76,38 @@ class Plot_2D{
   void regression(){
     
   }
+  
+  void event_listener(){
+    if(drag&&!values.get("drag")){
+      values.put("drag",true);
+    }
+    else if(!drag &&values.get("drag")){
+      values.put("drag",false);
+    }
+    if(resize&&!values.get("resize")){
+      values.put("resize",true);
+    }
+    else if(!resize &&values.get("resize")){
+      values.put("resize",false);
+    }
+    if(line&&!values.get("line")){
+      values.put("line",true);
+    }
+    else if(!line &&values.get("line")){
+      values.put("line",false);
+    }
+    if(dotted&&!values.get("dotted")){
+      values.put("dotted",true);
+    }
+    else if(!dotted &&values.get("dotted")){
+      values.put("dotted",false);
+    }
+    if(dashed&&!values.get("dashed")){
+      values.put("dashed",true);
+    }
+    else if(!dashed &&values.get("dashed")){
+      values.put("dashed",false);
+    }
+  };
   
 }

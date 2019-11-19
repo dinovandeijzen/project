@@ -3,11 +3,12 @@ class Button{
   float x,y,w,h,size,textsize,xoff,yoff;
   int id,toggle,toggle2,type;
   String label;
-  boolean drag,resize, radio,update,border = true;
+  boolean drag,resize, radio,update,border = true,vertical,horizontal;
   color col;
   Menu parent;
   Menu submenu;
   ArrayList<Button> buttons = new ArrayList<Button>();
+  HashMap<String,Boolean> values = new HashMap<String,Boolean>();
   
   Button(float xx, float yy, float ww, float hh, String Label){
     
@@ -19,6 +20,12 @@ class Button{
     size = 1;
     textsize = 12;
     col = color(255);
+    
+    values.put("drag",false);
+    values.put("resize",false);
+    values.put("radio",false);
+    values.put("update",false);
+    values.put("border",false);
   }
   
   void draw(){
@@ -114,10 +121,8 @@ class Button{
     if(toggle==2){
       toggle=0;
     }
-    //if(toggle==1){
       a.toggle++;
       gridbox.toggle++;
-    //}
     if(a.toggle==2){
      a.toggle=0; 
      gridbox.toggle=0;
@@ -171,7 +176,6 @@ class Button{
     if(pos() && parent.toggle==1){
       toggle ++;
     
-    
     if(toggle==2){
       toggle = 0;
     }}
@@ -179,6 +183,10 @@ class Button{
   };
   
   void toggle(Grid a,String b){
+    
+    //HashMap<String,Boolean> value = new HashMap<String,Boolean>();
+    //a.values.put(b,true);
+    //value.put(b,)
     if(parent!=null){
     if(pos() && parent.toggle==1){
       if(b=="Circle"){
@@ -187,20 +195,26 @@ class Button{
       else if(b=="Square"){
         a.circle=false;
       }
-      else if(b=="Pause"){
-        a.forward = false;
-        a.backward = false;
-        a.pause = true;
+      else if(b=="pause"){
+        a.values.put("forward",false);
+        a.values.put("backward",false);
+        a.values.put(b,true);
+        //a.forward = false;
+        //a.backward = false;
+        //a.pause = true;
       }
-      else if(b=="Forward"){
-        a.forward = true;
-        a.backward = false;
-        a.pause = false;
+      else if(b=="forward"){
+        a.values.put(b,true);
+        a.values.put("backward",false);
+        a.values.put("pause",false);
+        //a.forward = true;
+        //a.backward = false;
+        //a.pause = false;
       }
-      else if(b=="Backward"){
-        a.forward = false;
-        a.backward = true;
-        a.pause = false;
+      else if(b=="backward"){
+        a.values.put("forward",false);
+        a.values.put(b,true);
+        a.values.put("pause",false);
       }
     }}
     else{
@@ -214,6 +228,41 @@ class Button{
       else{
         
       }}}
+  };
+  
+  void toggle2(Grid a, String b){
+    
+    if(pos() && parent.toggle==1){
+      toggle ++;
+      if(toggle==2){
+        toggle=0;
+    }}
+    
+    if(pos() && parent.toggle==1){
+      if(toggle==1){
+        a.values.put(b,true);
+      }
+      else{
+        a.values.put(b,false);
+      }}
+  };
+  
+  void toggle2(Attractor a, String b){
+    
+    if(pos() && parent.toggle==1){
+      toggle ++;
+      
+      if(toggle==2){
+        toggle=0;
+    }}
+    
+    if(pos() && parent.toggle==1){
+      if(toggle==1){
+        a.values.put(b,true);
+      }
+      else{
+        a.values.put(b,false);
+      }}
   };
   
   void highlight2(){
@@ -248,5 +297,38 @@ class Button{
     
       return mouseX> x + w-10+xoff&& mouseX < x + w&& mouseY > y&& mouseY < y + h;
     
+  };
+  
+  void event_listener(){
+    if(drag&&!values.get("drag")){
+      values.put("drag",true);
+    }
+    else if(!drag &&values.get("drag")){
+      values.put("drag",false);
+    }
+    if(resize&&!values.get("resize")){
+      values.put("resize",true);
+    }
+    else if(!resize &&values.get("resize")){
+      values.put("resize",false);
+    }
+    if(radio&&!values.get("radio")){
+      values.put("radio",true);
+    }
+    else if(!radio &&values.get("radio")){
+      values.put("line",false);
+    }
+    if(update&&!values.get("update")){
+      values.put("update",true);
+    }
+    else if(!update &&values.get("update")){
+      values.put("update",false);
+    }
+    if(border&&!values.get("border")){
+      values.put("border",true);
+    }
+    else if(!border &&values.get("border")){
+      values.put("border",false);
+    }
   };
 };

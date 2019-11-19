@@ -1,4 +1,11 @@
 void buttons(){ 
+  header = new Window(0,0,W,20);
+  windows.add(header);
+  footer = new Window(0,H-50,W,50);
+  windows.add(footer);
+  header.border = false;
+  footer.border = true;
+  footer.col = 0;
   plot = new Plot_2D(new PVector(W/2,H/2),1000,1000);
   plot.col = color(0,255,0);
   plot.line = true;
@@ -63,17 +70,26 @@ void buttons(){
   gridbox.slide = false;
   btn8 = new Button(gridbox.x,gridbox.y,70,20,"Square");
   btn9 = new Button(gridbox.x,gridbox.y+20,70,20,"Circle");
-  btn10= new Button(gridbox.x,gridbox.y+20*2,70,20,"Attractor");
-  btn19= new Button(gridbox.x,gridbox.y+20*3,70,20,"Forward");
-  btn20= new Button(gridbox.x,gridbox.y+20*4,70,20,"Backwards");
-  btn21= new Button(gridbox.x,gridbox.y+20*5,70,20,"Pause");
+  btn22= new Button(gridbox.x,gridbox.y+20*2,70,20,"Hide");
+  btn23= new Button(gridbox.x,gridbox.y+20*3,70,20,"Graph");
+  btn10= new Button(gridbox.x,gridbox.y+20*4,70,20,"Attractor");
+  btn19= new Button(gridbox.x,gridbox.y+20*5,70,20,"Forward");
+  btn20= new Button(gridbox.x,gridbox.y+20*6,70,20,"Backwards");
+  btn21= new Button(gridbox.x,gridbox.y+20*7,70,20,"Pause");
+  btn26= new Button(gridbox.x,gridbox.y+20*8,70,20,"Heading");
+  btn24= new Button(gridbox.x,gridbox.y+20*9,70,20,"Reset");
   
   gridbox.items.add(btn8);
   gridbox.items.add(btn9);
+  gridbox.items.add(btn22);
+  
   gridbox.items.add(btn10);
   gridbox.items.add(btn19);
   gridbox.items.add(btn20);
   gridbox.items.add(btn21);
+  gridbox.items.add(btn23);
+  gridbox.items.add(btn26);
+  gridbox.items.add(btn24);
   
   btn8.parent = gridbox;
   btn9.parent = gridbox;
@@ -81,6 +97,10 @@ void buttons(){
   btn19.parent = gridbox;
   btn20.parent = gridbox;
   btn21.parent = gridbox;
+  btn22.parent = gridbox;
+  btn23.parent = gridbox;
+  btn24.parent = gridbox;
+  btn26.parent = gridbox;
   //-------------------------------------------------------------------------------------------
   //physics------------------------------------------------------------------------
   physics = new Menu(shapes.x + shapes.w,0,50,20,"Physics");
@@ -105,11 +125,14 @@ void buttons(){
   physics.items.add(btn18);
   //physics.items.add(btn19);
   
-  
   menus.add(physics);
   //--------------------------------------------------------------------------------------------------
   // grid---------------------------------------------------------------------------------------------
-  g = new Grid(W/2-200,H/2-200,400,400,50,50);
+  g = new Grid(W/2-200,H/2-200,400,400,40,40);
+  //g.graph = true;
+  //g.circular = true;
+  g.visible = true;
+  //g.visible = false;
   //g2 = new Grid(W/2-50,H/2-50,100,100,50,50);
   //b = new Grid(
   //populate();
@@ -118,6 +141,7 @@ void buttons(){
   g.randcolor = true;
   g.border = true;
   g.lim = 4;
+  g.forward = true;
   //g.move = true;
   //g.attractor = true;
   //g.acceleration = 0.5;
@@ -125,21 +149,31 @@ void buttons(){
   //g.bordersize = 0.1;
   g.fill = true;
   g.hover = true;
-  g.circle = true;
+  //g.set("hover",true);
+  //g.circle = true;
+  //g.set("circle",true);
   g.wrap = true;
+  //g.bounce = true;
   //g.mouse = true;
   g.attractor = true;
   //g.bounce = true;
   //thread("g.init");
+  //g.heading = true;
   reset.toggle = 0;
   
   //--------------------------------------------------------------
   // sub menus------------------------------------------------------
   btn1.submenu = new Menu(btn1.x+btn1.w,btn1.y,70,20);
+  btn3.submenu = new Menu(btn3.x+btn3.w,btn3.y,70,20);
   menus.add(btn1.submenu);
+  menus.add(btn3.submenu);
   
   btn1.submenu.type = 1;
   btn1.submenu.parent = btn1;
+  btn3.submenu.type = 1;
+  btn3.submenu.parent = btn3;
+  
+  btn25 = new Button(btn3.x+btn3.w,btn3.y,70,20,"Test");
   
   btn4 = new Button(btn1.x+btn1.w,btn1.y,70,20,"Square");
   btn5 = new Button(btn1.x+btn1.w,btn1.y+20,70,20,"Circle");
@@ -149,6 +183,8 @@ void buttons(){
   
   btn1.submenu.items.add(btn4);
   btn1.submenu.items.add(btn5);
+  
+  btn3.submenu.items.add(btn25);
   
   attractor.submenu = new Menu(attractor.x+attractor.w,attractor.y,70,20);
   menus.add(attractor.submenu);
@@ -180,6 +216,9 @@ void buttons(){
   yes.parent = reset_dialogue;
   no.parent = reset_dialogue;
    
-   //--------------------------------------------------------------
+   //-------------------------------------------------------------------------
+   //textboxes---------------------------------------------------------------------
+   textb1 = new TextArea(0,200,200,40,20,4);
+   textboxes.add(textb1);
   
 }
