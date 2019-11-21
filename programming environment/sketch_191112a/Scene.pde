@@ -1,15 +1,21 @@
-class Slider{
+class Scene{
   
-  int id,type;
-  float x,y,w,h;
+  int id;
+  float x,y,w,h,bordersize = 1;
   String label;
   boolean drag,resize,border,fill = true ,toggle,visible;
   color col = color(0);
   color col2 = color(255);
-  Menu parent;
   HashMap<String,Boolean> values = new HashMap<String,Boolean>();
+  ArrayList<Menu> menus = new ArrayList<Menu>();
+  ArrayList<Slider> sliders = new ArrayList<Slider>();
+  ArrayList<Button> buttons = new ArrayList<Button>();
+  ArrayList<Plot_2D> plots_2d = new ArrayList<Plot_2D>();
+  ArrayList<Plot_3D> plots_3d = new ArrayList<Plot_3D>();
+  ArrayList<Boundary> boundaries = new ArrayList<Boundary>();
+  ArrayList<Quad> fields = new ArrayList<Quad>();
   
-  Slider(float xx,float yy, float ww, float hh){
+  Scene(float xx,float yy, float ww, float hh){
     
     x = xx;
     y = yy;
@@ -40,70 +46,27 @@ class Slider{
     else{
       values.put("border",false);
     }
-  }
+    
+  };
   
-  void classic_square(){
+  void draw(){
+    event_listener();
+    strokeWeight(bordersize);
+    stroke(col);
+    if(!border){
+      noStroke();
+    }
+    fill(col2);
     if(!fill){
       noFill();
     }
-    fill(col2);
     rect(x,y,w,h);
     
   };
   
-  void classic_round(){
-    if(!fill){
-      noFill();
-    }
-    fill(col2);
-    rect(x,y,w,h);
+  void regression(){
     
   };
-  
-  void bar(){
-    if(!fill){
-      noFill();
-    }
-    fill(col2);
-    rect(x,y,w,h);
-    
-  };
-  
-  void matrix(){
-    if(!fill){
-      noFill();
-    }
-    fill(col2);
-    rect(x,y,w,h);
-    
-  };
-  
-  void pie_square(){
-    if(!fill){
-      noFill();
-    }
-    fill(col2);
-    rect(x,y,w,h);
-    
-  };
-  
-  void pie_radio(){
-    if(!fill){
-      noFill();
-    }
-    fill(col2);
-    rect(x,y,w,h);
-    
-  };
-  void pie_bar(){
-    if(!fill){
-      noFill();
-    }
-    fill(col2);
-    rect(x,y,w,h);
-    
-  };
-  
   
   void event_listener(){
     if(drag&&!values.get("drag")){
@@ -142,9 +105,12 @@ class Slider{
     else if(!border &&values.get("visible")){
       visible = true;
     }
+   
+    
   };
   
   boolean pos(){
     return mouseX>x&&mouseX<x+w&&mouseY>y&&mouseY<y+h;
   }
+  
 };

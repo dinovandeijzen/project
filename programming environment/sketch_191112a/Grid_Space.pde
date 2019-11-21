@@ -1,13 +1,18 @@
 class Grid_space{
   
-  int id, row,t,toggle,steps,counter = 0,index;
-  float x,y,w,h,vx,vy,ax,ay,elasticity,lim;
+  int id, row,t,toggle,steps,counter = 0,index,t2;
+  float x,y,w,h,vx,vy,ax,ay,elasticity,lim,mass = 10,type,dx,dy;
   String label;
   boolean drag,resize,collide,forward = true,backward = false, pause = false,graph,visible,field;
   ArrayList<PVector> pos = new ArrayList<PVector>();
   PVector heading ;
+  float incidence;
+  float reflection ;
+  float norm;
+  Scene parent;
   ArrayList<PVector> vel = new ArrayList<PVector>();
   ArrayList<PVector> headings = new ArrayList<PVector>();
+  PVector temp = new PVector(0,0);
   HashMap<String,Boolean> values = new HashMap<String,Boolean>();
   color col = 255;
   Grid_space(float xx,float yy, float ww, float hh, int Id){
@@ -55,15 +60,7 @@ class Grid_space{
   }
   
   void update(){
-    stroke(0);
-    
-    event_listener();
-    
     steps = pos.size()-1;
-    text (counter, 150,20);
-    fill(255);
-      text(index,200,10);
-      fill(col);
     if(forward){
       
       if(index==0){
@@ -88,8 +85,12 @@ class Grid_space{
     if(vy<-4){
       vx = -4;
     }
-    x += vx;
-    y += vy;
+    if(boundaries()){
+      reflect();
+    }
+      x += vx;
+      y += vy;
+    
       
       if(attractors.size()>0){
         find_heading();
@@ -151,11 +152,15 @@ class Grid_space{
         PVector p = pos.get(pos.size()-1);
         PVector c = new PVector(x,y);
         
+        //PVector p = new PVector(x + vx,y +vy);;
+        //PVector c = new PVector(x,y);
+        
         int mult = 10;
         float dx = c.x - p.x;
         float dy = c.y - p.y;
         
         float theta = atan2(dy,dx);
+        incidence = theta;
         
         if(dx>0){
           heading.x = x + dx * mult * cos(theta);
@@ -187,14 +192,81 @@ class Grid_space{
       
       float t1 = atan2(a.y - y, a.x - x);
     
+      float d = dist(x,y,a.x,a.y);
+      if(a.type == 1){
+      ax = (a.mass + mass)/(d*d)*9.81*a.intensity;
+      ay = (a.mass + mass)/(d*d)*9.81*a.intensity;
+      }
+      else if( a.type == 2){
       ax = a.intensity;
       ay = a.intensity;
       //vx -=  a.intensity * dx; ;
       //vy -=  a.intensity * dy; ;
+      }
       vx -= ax * cos(t1);
       vy -= ay * sin(t1);
       
     }}}
+  };
+  
+  void reflect(){
+    if(collide){
+      vx = -ax  * cos(reflection);
+      vy = -ay  * sin(reflection);
+    }
+    
+  };
+  
+  boolean boundaries(){
+    t2 = 0;
+    boolean k = false;
+    float incidence = 0;
+    PVector temp = new PVector(0,0);
+    if(forward){
+    if(lines.Boundaries.size()>0){
+      
+    for(int i=0;i<lines.Boundaries.size();i++){
+      
+      Boundary a = lines.Boundaries.get(i);
+      float n = lines.norm.get(i);
+      
+      PVector a1 = new PVector(a.x1,a.y1); 
+      PVector a2 = new PVector(a.x2,a.y2); 
+      
+      boolean k2 = check_lineP(a1,a2,new PVector(x,y));
+      //norm.set(0,a.norm);
+      norm = n;
+      if(k2){
+        t2++;
+      }}}}
+    
+    if(t2>0){
+      k = true;
+      collide = true;
+    }
+    else{
+      collide = false;
+    }
+    
+    reflection = norm + (norm + incidence);
+    return k;
+  };
+  
+  
+  boolean check_lineP(PVector a, PVector b,PVector c){
+    
+    boolean k = false;
+    float d1 = dist(a.x,a.y,b.x,b.y);
+    float d2 = dist(a.x,a.y,c.x,c.y);
+    float d3 = dist(b.x,b.y,c.x,c.y);
+    float d4 = d2 + d3;
+    
+    
+    //if(d5>=inc/2&&d6>=inc/2){
+    if(d4 <= d1 + 0.05 && d4 >= d1 - 0.05){
+      k = true;
+    }
+    return k;
   };
   
   float Limit(float a,float b){
@@ -315,58 +387,58 @@ class Grid_space{
   
   void event_listener(){
     if(drag&&!values.get("drag")){
-      values.put("drag",true);
+      drag = false;
     }
     else if(!drag &&values.get("drag")){
-      values.put("drag",false);
+      drag = true;
     }
     if(resize&&!values.get("resize")){
-      values.put("resize",true);
+      resize = false;
     }
     else if(!resize &&values.get("resize")){
-      values.put("resize",false);
+      resize = true;
     }
     if(collide&&!values.get("collide")){
-      values.put("collide",true);
+      collide = false;
     }
     else if(!collide &&values.get("collide")){
-      values.put("collide",false);
+      collide = true;
     }
     if(forward&&!values.get("forward")){
-      values.put("forward",true);
+      forward = false;
     }
     else if(!forward &&values.get("forward")){
-      values.put("forward",false);
+      forward = true;
     }
     if(backward && !values.get("backward")){
-      values.put("backward",true);
+      backward = false;
     }
     else if(!backward &&values.get("backward")){
-      values.put("backward",false);
+      backward = true;
     }
     if(pause && !values.get("pause")){
-      values.put("pause",true);
+      pause = false;
     }
     else if(!pause &&values.get("pause")){
-      values.put("pause",false);
+      pause = true;
     }
     if(visible&&!values.get("visible")){
-      values.put("visible",true);
+     visible = false;
     }
     else if(!visible &&values.get("visible")){
-      values.put("visible",false);
+      visible = true;
     }
     if(graph && !values.get("graph")){
-      values.put("graph",true);
+      graph = false;
     }
     else if(!graph &&values.get("graph")){
-      values.put("graph",false);
+      graph = true;
     }
     if(field && !values.get("field")){
-      values.put("field",true);
+      field = false;
     }
     else if(!field &&values.get("field")){
-      values.put("field",false);
+      field = true;
     }
   };
   

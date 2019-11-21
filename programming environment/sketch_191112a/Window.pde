@@ -5,6 +5,7 @@ class Window{
   String label;
   boolean drag,resize,hover,border,background,hidden,fill = true;
   Button child;
+  Menu parent;
   
   color col = color(255);
   
@@ -18,7 +19,6 @@ class Window{
   };
   
   void draw(){
-    
     
     if(!hidden){
       if(border){

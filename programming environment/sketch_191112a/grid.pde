@@ -4,7 +4,7 @@ public class Grid{
   float x,y,w,h,bordersize,lim,acceleration,elasticity;
   String label;
   boolean drag,resize, init, border, fill,hover,count,wrap,move,attractor,circle,collide,cloth,partition,bounce,mouse,forward = true,backward,pause,randcolor,graph,circular;
-  boolean visible = true,field = false,reset,heading;
+  boolean visible = true,field = false,reset,heading,intersect;
   
   HashMap<String,Boolean> values = new HashMap<String,Boolean>();
   ArrayList<Grid_space> squares = new ArrayList<Grid_space>();
@@ -96,10 +96,6 @@ public class Grid{
           else{
             a.graph = false;
           }
-          //if(heading){
-            
-          //}
-          
           a.forward = true;
           a.backward = false;
           a.pause = false;
@@ -127,6 +123,12 @@ public class Grid{
         }
         if(!fill){
           noFill();
+        }
+        if(a.collide){
+          fill(0);
+        }
+        else{
+          fill(a.col);
         }
         if(move){
           a.move();
@@ -340,6 +342,13 @@ public class Grid{
     else{
       values.put("heading",true);
     }
+    if(!intersect){
+    values.put("intersect",false);
+    }
+    else{
+      values.put("intersect",true);
+    }
+    
   };
   
   void event_listener(){
@@ -475,6 +484,12 @@ public class Grid{
     }
     else if(!heading &&values.get("heading")){
       heading = true;
+    }
+    if(intersect&&!values.get("intersect")){
+      intersect = false;
+    }
+    else if(!intersect &&values.get("intersect")){
+      intersect = true;
     }
     
   };

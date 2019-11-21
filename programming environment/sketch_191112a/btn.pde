@@ -184,49 +184,22 @@ class Button{
   
   void toggle(Grid a,String b){
     
-    //HashMap<String,Boolean> value = new HashMap<String,Boolean>();
-    //a.values.put(b,true);
-    //value.put(b,)
     if(parent!=null){
     if(pos() && parent.toggle==1){
-      if(b=="Circle"){
-        a.circle=true;
-      }
-      else if(b=="Square"){
-        a.circle=false;
-      }
-      else if(b=="pause"){
+       if(b=="pause"){
         a.values.put("forward",false);
         a.values.put("backward",false);
         a.values.put(b,true);
-        //a.forward = false;
-        //a.backward = false;
-        //a.pause = true;
       }
       else if(b=="forward"){
         a.values.put(b,true);
         a.values.put("backward",false);
         a.values.put("pause",false);
-        //a.forward = true;
-        //a.backward = false;
-        //a.pause = false;
       }
       else if(b=="backward"){
         a.values.put("forward",false);
         a.values.put(b,true);
         a.values.put("pause",false);
-      }
-    }}
-    else{
-    if(pos()){
-      if(b=="Circle"){
-        a.circle=true;
-      }
-      else if(b=="Square"){
-        a.circle=false;
-      }
-      else{
-        
       }}}
   };
   
@@ -248,6 +221,23 @@ class Button{
   };
   
   void toggle2(Attractor a, String b){
+    
+    if(pos() && parent.toggle==1){
+      toggle ++;
+      
+      if(toggle==2){
+        toggle=0;
+    }}
+    
+    if(pos() && parent.toggle==1){
+      if(toggle==1){
+        a.values.put(b,true);
+      }
+      else{
+        a.values.put(b,false);
+      }}
+  };
+  void toggle2(Boundary a, String b){
     
     if(pos() && parent.toggle==1){
       toggle ++;

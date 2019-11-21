@@ -1,4 +1,9 @@
 void buttons(){ 
+  
+  //------------------------------------------------------
+  //Boundaries--------------------------------------------
+  
+  lines = new Boundary();
   header = new Window(0,0,W,20);
   windows.add(header);
   footer = new Window(0,H-50,W,50);
@@ -54,14 +59,19 @@ void buttons(){
   btn13 = new Button(file.x + file.w ,shapes.y+shapes.h+20*2,90,20,"Rectangle");
   btn13.parent = shapes;
   btn13.border = false;
-  btn14 = new Button(file.x + file.w ,shapes.y+shapes.h+20*3,90,20,"Bezier");
+  btn28 = new Button(file.x + file.w ,shapes.y+shapes.h+20*3,90,20,"Tri");
+  btn28.parent = shapes;
+  btn28.border = false;
+  btn14 = new Button(file.x + file.w ,shapes.y+shapes.h+20*4,90,20,"Bezier");
   btn14.parent = shapes;
   btn14.border = false;
+  
   
   shapes.items.add(btn11);
   shapes.items.add(btn12);
   shapes.items.add(btn13);
   shapes.items.add(btn14);
+  shapes.items.add(btn28);
   //shapes.items.add(btn11);
   menus.add(shapes);
   //---------------------------------------------------------------------------
@@ -77,7 +87,8 @@ void buttons(){
   btn20= new Button(gridbox.x,gridbox.y+20*6,70,20,"Backwards");
   btn21= new Button(gridbox.x,gridbox.y+20*7,70,20,"Pause");
   btn26= new Button(gridbox.x,gridbox.y+20*8,70,20,"Heading");
-  btn24= new Button(gridbox.x,gridbox.y+20*9,70,20,"Reset");
+  btn27= new Button(gridbox.x,gridbox.y+20*9,70,20,"Intersect");
+  btn24= new Button(gridbox.x,gridbox.y+20*10,70,20,"Reset");
   
   gridbox.items.add(btn8);
   gridbox.items.add(btn9);
@@ -90,6 +101,7 @@ void buttons(){
   gridbox.items.add(btn23);
   gridbox.items.add(btn26);
   gridbox.items.add(btn24);
+  gridbox.items.add(btn27);
   
   btn8.parent = gridbox;
   btn9.parent = gridbox;
@@ -101,6 +113,7 @@ void buttons(){
   btn23.parent = gridbox;
   btn24.parent = gridbox;
   btn26.parent = gridbox;
+  btn27.parent = gridbox;
   //-------------------------------------------------------------------------------------------
   //physics------------------------------------------------------------------------
   physics = new Menu(shapes.x + shapes.w,0,50,20,"Physics");
@@ -152,8 +165,8 @@ void buttons(){
   //g.set("hover",true);
   //g.circle = true;
   //g.set("circle",true);
-  g.wrap = true;
-  //g.bounce = true;
+  //g.wrap = true;
+  g.bounce = true;
   //g.mouse = true;
   g.attractor = true;
   //g.bounce = true;

@@ -1,10 +1,11 @@
 class Attractor{
   
-  int id,toggle;
-  float x,y,w,h,intensity;
+  int id,toggle,type;
+  float x,y,w,h,intensity,mass = 200;
   String label;
   boolean drag,resize; 
   HashMap<String,Boolean> values = new HashMap<String,Boolean>();
+  ArrayList<Attractor> attractors = new ArrayList<Attractor>();
   
   Attractor(float xx, float yy, float Intensity){
     
